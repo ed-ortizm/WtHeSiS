@@ -7,3 +7,6 @@
 *.log
 *.out
 *.gz
+
+#TeX-LINUX
+*~
