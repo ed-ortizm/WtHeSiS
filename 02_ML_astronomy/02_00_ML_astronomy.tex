@@ -1,0 +1,12 @@
+\section{Machine Learning in Astronomy}
+
+The traditional way to extract knowledge from data consists of using a predefined model to fit in it the data. The nature of the model depends on what information we want to extract from the data we have collected, as an example, we can consider a mono-atomic diluted gas confined in a recipient of volume $V$, at a temperature $T$ and at a pressure $P$, for which we want to know how these features are correlated if they are modified. To get the data we have to measure pressure, volume, and temperature for different configurations of the system. Then we search for a toy-theoretical model based on sound physical laws to predict what would be the functional relation among all the variables. Once we have these predefined models which will depend on some parameters, we proceed to feed the data to it to see if it predicts correctly the correlations among the measured features, if not, we search for another model. If the prediction is quite accurate, then we can extend the model to consider more variables, like the number of particles in the recipient. This approach is just model fitting using some statistical considerations to handle the accuracy of the model.
+
+The case stated before is quite simple since it is a system that can be controlled to explore the correlation among the variables, and additionally it is not a complex system since we have only three variables involved. In astronomy the story is  completely different: 
+
+\begin{enumerate}
+    \item Experiments can not be performed on objects like stars or distant galaxies. 
+    \item The number of measured variables is huge (multi-waveband), making its correlations highly complex and then tough to make a model describing them, see \cite{DelliVeneri2019}.
+\end{enumerate}
+
+In this case, the model-fitting paradigm is not the best approach to follow. Here appears the need for statistical tools that can learn those correlations on their own, helping us to gain more insight into the objects we study \cite{Baron2019}. These tools are machine learning algorithms that accomplish this task in two ways mainly: supervised and unsupervised learning. In what follows, supervised and unsupervised learning techniques are discussed, mentioning their current use in astronomy and their future perspectives.
