@@ -1,0 +1,48 @@
+\section{Introduction}
+
+\begin{flushright}
+We are drowning in information and starving for knowledge.\\
+-Rutherford D. Roger
+\end{flushright}
+
+Astronomy has entered a Big-Data era \cite{Moravec2019} \cite{Siemiginowska2019} \cite{Feigelson2012} thanks to advances in instrumentation, new telescopes, and mainly because of large astronomical surveys. The trend is, it will just keep growing on and on at an exponential rate in the coming years. Just to mention a couple of these large surveys adding to this reservoir of data, we have the SDSS \cite{Gunn2006a} \cite{Werijmans2015} and the future VERY large survey  LSST \cite{Ivezic2008}. Citing from LSST web page https://www.lsst.org/about : \\
+
+``The goal of the Large Synoptic Survey Telescope (LSST) project is to conduct a 10-year survey of the sky that will deliver a 500 petabyte set of images and data products that will address some of the most pressing questions about the structure and evolution of the universe and the objects in it."\\
+
+Within all this data lies hidden scientific truths, which, by traditional human and computational means will take many years to unveil. This new challenge posed by Big-Data can be tackled using new algorithms able to look for these truths \cite{Baron2017} \cite{Tshitoyan2019}. Algorithms of these types exist in the realm of Machine Learning (ML) \cite{Geron2017}. ML computing techniques differ from traditional ones in the way a problem is approached. Traditionally, a Rules-Based approach \cite{Patel2019} is used, i.e, the computer is explicitly programmed to solve a task. On the other hand, ML algorithms are able to solve a task learning from the data itself, i.e, they learn on their own without being explicitly programmed or guided. ML algorithms obtain insight from data. A final remark, but a very important one, is that the overall performance of ML techniques improves when more data is fed to the algorithms, a feature that makes it very attractive in this new era of astronomy.\\
+
+ML algorithms can learn from data with supervision or without supervision, so a natural classification for ML appears \cite{Geron2017} \cite{Patel2019}: 
+
+\begin{itemize}
+    \item supervised learning (SL), and 
+    \item unsupervised learning (UL).
+\end{itemize}
+
+Nonetheless, the division is blurred, since mixed approaches can be considered. The only thing we can talk about is the amount of supervision provided to the algorithm.\\
+
+The difference between supervised and unsupervised learning in terms of the data used to feed the ML algorithm resides in the fact that in SL, training data must be given to the ML algorithm which already contains the relations between the features of the input data (input variables) and the labels assigned to them (output variables). These relations are usually computed by a human expert. In this framework, the algorithm adjusts its parameters to learn the relations implicitly and then it generalizes when unlabeled data is presented to it.\\
+
+In a SL project, before delivering the final product, it is a common practice to split the training set (the one with labels) into three subsets:
+
+\begin{enumerate}
+    \item Training set: with this one the ML algorithm acquires experience.
+    \item Validation set: the experience acquired before is tested by measuring the performance of the algorithm. If the performance is not acceptably       good for the task, modifications are done and we go back to the training set.
+    \item Test set: once we have a working model, we test it against unseen data and see how well it generalizes.\\
+\end{enumerate}
+
+From the previous workflow \cite{Geron2017}, while training a SL program, a weakness in SL can be spotted: if we present to it with data which is very dissimilar to the one used for the training, it would not give an appropriate answer (the algorithm can not generalized well for this data). This weakness propagates to another one: the amount of labeled data in the real world is small when compared with the amount of generated data (unlabeled), then an SL algorithm has severe limitations in broader contexts and adapting to incoming information\cite{Patel2019}.\\
+
+Regarding UL, here the algorithms do not have any guide during the learning process. UL algorithms have to find by themselves the patterns within the data. And here lies one of its strengths, it is able to map each feature in the data set to a generic label, then if more and more data is given, the pitfalls we had on SL are diminished \cite{Patel2019}.\\
+
+Summarizing, the learning done in the supervised case is conditioned to the relation between the labels given to the input data in the training set, while in the case of unsupervised learning, the algorithm generates by itself the underlying relations within the data.\\
+
+An obvious advantage of SL over UL is that for SL a performance measure can be established and optimized, and as a consequence, the algorithm can generalize to an acceptable degree according to the requirements of our task; in UL, that is impossible. This difference makes the problems to be tackled by each algorithm of a different nature. As an example, and going back to astronomy, one particular question we could ask to an astronomical data-set could be: What are the weirdest objects you have there? And by weird, we mean objects which are either extreme objects in our lore or unknown objects (not described by our current accepted knowledge). Well, it turns out to be a perfect task for UL \cite{Baron2017}, since it is impossible to provide a training data set containing unknown labeled objects for SL.\\
+
+The end goal of these tools is knowledge discovery from the data, a term that is used in the fields of data mining and ML \cite{Ivezic2017}. To accomplish this, we need to somehow make a working model for the data that can allow us to make predictions and better understand the problem at hand: either quantitatively or qualitatively. It all sounds amazing, nonetheless, it is always good to have in mind that a model is just a representation of reality and that reality is more complex than that; that being said, when using a model to understand our data, we have to be careful about possible biases that might be introduced in our interpretation about the phenomenology in our problem. As an example, we can consider two very different approaches when modeling some data:
+
+\begin{enumerate}
+    \item A linear model: one-parameters model
+    \item N-degree polynomial model: n-parameter model,
+\end{enumerate}
+
+In the first case, assuming a linear behavior is a very strong assumption about the phenomenology in our problem which could lead to a very poor interpretation of it if the problem has a higher degree of complexity. On the other hand, in the second case, an n-degree polynomial could overfit the data, leading to a poor predictive power of our data, ie, our model doesn't generalize pretty well for points outside our training data. As we can see, there is a compromise between the complexity used in the model chosen to study the data. Finally, and also very relevant when trying to understand what is going on in our data is the very nature of it, this factor also has an impact on what model should be used to interpret it. An interesting discussion about this is found in  \cite{Hastie2003} where this trade-off is discussed comparing a linear model against a KNN model for a classification problem.
