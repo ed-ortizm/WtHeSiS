@@ -1,0 +1,82 @@
+\documentclass[letterpaper, 12pt]{article}
+\usepackage{multicol}
+% math symbols
+\usepackage{amsmath,amssymb}
+\usepackage{amsfonts}
+
+% appendixes
+%\usepackage{appendix}
+
+% fonts & characters: this is for the English version of the manuscript
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% graphics and colors
+\usepackage{graphicx}
+\usepackage{xcolor}
+%\usepackage{subfig}
+\usepackage{subcaption}
+
+% page set up
+\usepackage[left=2.5 cm, right=2.5 cm, top=2.5 cm, bottom=2.5 cm]{geometry}
+\usepackage{setspace}
+\onehalfspace % line-spacing 1.5 as requested in the projec's guidelines
+\usepackage{hyperref} % hyperlinks
+\hypersetup{colorlinks=true, citecolor=blue}
+\usepackage{import}
+\usepackage{fancyhdr}
+
+%Fancy stuff
+  %To generate a list in the format 1.1, 1.2,..., 1.1.1, 1.1.2,...
+  \renewcommand{\labelenumii}{\labelenumi \arabic{enumii}}
+  \renewcommand{\labelenumiii}{ \labelenumii .\arabic{enumiii}}
+
+
+
+% bibliography
+\usepackage{natbib}
+%\bibpunct{(}{)}{,}{a}{}{,}
+%\bibliographystyle{no_url_3authorsM5_agsm}
+\bibliographystyle{./bib/aa}
+
+% an improvement
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C,C]{UNIVERSIDAD DE ANTOFAGASTA \\ 
+                Programa de Doctorado en F\'{i}sica Menci\'{o}n F\'{i}sica Matem\'{a}tica}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Added for compatibility with bibref from ui.adsabs
+\import{./bib/}{astro_journals_LaTeX}
+
+
+\begin{document}
+
+  \import{./}{00_abstract.tex}
+
+  \import{01_intro/}{intro.tex}
+  
+  \import{outlier_problem/}{outlier_problem.tex}
+  
+  \import{AEs/}{AEs.tex}
+
+  \import{RF/}{RF.tex}
+
+  \import{manifold_learning/}{manifold_learning.tex}
+
+  \import{XAI/}{XAI.tex}
+  
+% Page for bibliography
+  \clearpage
+  \newpage
+
+  \import{./bib/}{bib_env_cols}
+
+%\begin{singlespace}
+  \setstretch{0.85}
+  \scriptsize
+  \bibliography{./bib/project_books,./bib/project_inbook,./bib/project_inproceedings,./bib/project_papers,./bib/project_web}
+%\end{singlespace}
+
+\end{document}
