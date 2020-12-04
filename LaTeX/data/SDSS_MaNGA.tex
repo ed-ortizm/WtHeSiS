@@ -11,20 +11,20 @@ SDSS and MaNGA have and will help us understand the physics of galaxies as well 
 
 \subsection{Sloan Digital Sky Survey (SDSS)}
 
-\subsubsection{SDSS Scientific Motivation}
+\subsubsection*{SDSS Scientific Motivation}
 
-\subsubsection{SDSS Survey Design}
+\subsubsection*{SDSS Survey Design}
 
-\subsubsection{SDSS Data Components and Metadata}
+\subsubsection*{SDSS Data Components and Metadata}
 
-\subsubsection{SDSS Data Curation}
+\subsubsection*{SDSS Data Curation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Mapping Nearby Galaxies at APO: MaNGA}
 
 MaNGA is a survey component from the Sloan Digital Sky Survey (SDSS) \citep{bundy2015, ahumada2020}. Its mission is to observe with Integral Field Units (IFUs) approximately 10.000 nearby galaxies. Thanks to the IFUs, MaNGA is able to measure the spectra of different regions of the same galaxy, depending on the number of fibers in the IFU.
 
-\subsubsection{MaNGA Scientific Motivation}
+\subsubsection*{MaNGA Scientific Motivation}
 
 MaNGA is helping us to understand the physics of the mechanisms that drive the evolution of galaxies by:
 
@@ -50,7 +50,7 @@ The approximate number of bins needed per axis in the parameter space that defin
 With this sample size, MaNGA is expected to explore new regions of the parameter's space of galaxy populations. \textbf{Meaning there is an open window for new discoveries!}
 
 
-\subsubsection{MaNGA Survey Design}
+\subsubsection*{MaNGA Survey Design}
 
  MaNGA uses the two Baryon Oscillation Spectroscopic Survey (BOSS) spectrographs, covering a wavelength range from 360 nm to 1040 nm with a resolving power of $\sim 2000$. MaNGA has a configuration that allows for the observation of 17 galaxies at a time. Each fiber used in MaNGA has a diameter of 120 microns, equivalent to 2'' and they are packed in ferrules forming a hexagonally shaped IFU, as shown in Fig. 1 below [put figure obviously].
 
@@ -105,11 +105,35 @@ In regard to the fibers and the fiber bundles, we have:
   \item The cross-talk between spectral traces of adjacent fibers is of $ \sim 10 \%$
 \end{enumerate}
 
-\subsubsection{Data Components and Metadata}
+\subsubsection*{Data Components and Metadata}
 
 The MaNGA Data Reduction Pipeline (DRP) \citep{law2016} takes the raw MaNGA data and generates a data-cube, a three-dimensional data array containing spectra for a single galaxy. The array has two spatial dimensions and a wavelength dimension representing the spectra of a galaxy at each of its spatial measured points. The DRP generates the DRPall summary fits file containing the metadata for all the observations, galaxies, and non-galaxies. In the case of galaxies, it includes information such as the redshift, among others drawn from the NASA-Sloan Atlas. The DAP processes only the log-linearly binned data cubes (LOGCUBE files) from the DRP to produce stellar and ionized gas kinematics, among others, stored in the MAPS files. Each MaNGA observation is uniquely identified with the plate-IFUdesing, which allows us to find a specific galaxy observation. There is also the MaNGA-ID which uniquely identifies a galaxy, this is something to have in mind since a galaxy might have multiple observations, having, therefore, several plate-IFUdesigns
 
-\subsubsection{MaNGA Data Curation}
+MaNGA data processing needs are not a trivial task, for instance, we can plot some numbers. The sample size is of $ \sim 10,000$ low redshift galaxies, out of wich there are approximately 100 million raw-frame spectra which after reduction, go down to about 10 million reduced spectra.
+The processing of the raw data has to take into account many variables related to the exposition time, too.
+
+The MaNGA Data Reduction Pipeline (DRP) is aimed at producing a flux calibrated spectral cube of galaxies in a FITS format. The DRP is written mainly in IDL, aided by C and python scripts. The DRP consists of two stages:
+
+\begin{enumerate}
+  \item 2d stage: flux-calibrated fiber spectra
+  
+  \item 3d stage: products from 2D stage + astrometric information $\rightarrow$ data cubes
+\end{enumerate}
+
+For the 2d stage the product consists of flux-calibrated individual exposures of an entire plate, that is, the science and calibration exposures.All the calibrations exposures are processed to determine the spatial trace of the fiber on the detector in order to extract fiber flat-field and wavelength calibration vectors. The products above are used to process science frames. From the sky fibers a super-sampled model of the sky background is created to then be subtracted from each fiber spectra. The mini-bundles used for standard stars are used to determine the flux calibration vector for the exposure. The final product is a 2D FITS file with Row-Stacked Spectra (RSS), ie, each row is the spectra of each of the 1423 fibers.  
+ 
+For the 3d stage The products consist of data cubes and RSS for a galaxy from all the exposures. Once the needed number of exposures is completed per plate, the 3d stage is triggered using all the RSS FITS files generated in the 2d stage. The RSS FITS files of a plate are combined in this stage. The relevant spectra of a target for the exposures are identified and sorted using astrometric information. A data cube is generated for each target, having additional products: griz image, mask cube, reference information and more. The final products of the 3d stage are used later with the Data Analysis Pipeline (DAP) built for MaNGA to produce science data products.
+
+Given the complexity of all the data processing stage, it is good to keep in mind that in addition to what was mentioned above different operational variables change and in different time scales, therefore the need for metadata track, eg: fiber bundle metrology, cartridge layout, fiber plugin locations and more. Metadata is essential if we want to rerun the DRP to obtain data products.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.9\textwidth]{MaNGA_DRP_diagram.jpg}
+  \caption{\small{MaNGA DRP diagram \citep{law2016}}}
+  \label{fig: outlier_URF}
+\end{figure}
+
+\subsubsection*{MaNGA Data Curation}
 
 ML algorithms are agnostic in the sense that they don't know what is the phenomenology behind the data used for their training. For instance, let's assume we have the same spectrum of a galaxy but with different redshifts. If we feed these spectra to the ML algorithm, it is going to think that we have two different objects. Therefore before developing an ML model it is necessary to correct for these kinds of situations in order to make comparisons meaningful. Additionally, we can not just feed raw data to the algorithm because there are scenarios where we have missing values, artifacts. MaNGA data provides several flags signaling scenarios of these kinds for the data. Table \ref{table:MaNGA Data Quality Mask Bits} provides these values:
 
