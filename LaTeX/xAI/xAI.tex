@@ -1,0 +1,32 @@
+\section{E\textbf{x}plainable \textbf{A}rtificial \textbf{I}ntelligence (xAI)}
+
+\begin{enumerate}
+  
+  \item LIME
+  
+  \item SAHP
+\end{enumerate}
+
+\subsection{xAI for Unsupervised Learning}
+
+LIME and SHAP are designed to interpret predictions made by classifiers and regressors, that is, supervised learning
+models. For the case of the unsupervised random forest, there is not a big problem with that because in the end it is a classification model. On the other hand, for the case of the AE algorithm, it is an unsupervised learning algorithm and the outlier score is computed a posteriori. Therefore there are two stages for that particular ODA. Nonetheless, there is a neat way to ovecome this situation. Instead of passing the autoencoder prediction funtion, that outputs a reconstructed spectrum, we pass to lime a new function that outputs the outlier score. In that sense, the ODA is a regression algorithm, therefore, the labels fed to LIME consist of all the predicted outlier scores. Below the pseudocode for that procedure:
+
+% \begin{algorithm}[tb]
+% \begin{algorithmic}
+%   \Require Classifier $f$, Number of samples $N$
+%   \Require Instance $x$, and its interpretable version $x'$
+%   \Require Similarity kernel $\Sim_x$, Length of explanation $K$
+%   \State $\mathcal{Z} \gets \{\}$
+%   \For{$i \in \{1,2,3,...,N\}$}
+%     \State{$z_i'\gets sample\_around(x')$}
+%     \State $\mathcal{Z} \gets \mathcal{Z} \cup \langle z_i', f(z_i), \Sim_x(z_i) \rangle$
+%   \EndFor
+%   \State $w \gets \text{K-Lasso}(\mathcal{Z},K)$  \Comment{with $z_i'$ as features, $f(z)$ as target}
+%   \Return $w$
+% \end{algorithmic}
+% \caption{Sparse Linear Explanations using LIME\label{alg:lime}}
+% \end{algorithm}
+%
+\import{./}{LIME.tex}
+\import{./}{SHAP.tex}
