@@ -97,13 +97,14 @@ from skimage.util import img_as_float
 
 ###############################################################################
 def plot_seg_img(img,segmented_img, img_name, output_path='.',
-                 seg_type='SLIC', show=False):
+                 seg_type='SLIC', outline_color=(1, 0, 0), show=False):
 
     fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
     ax[0].imshow(img)
     ax[0].set_title(f"{img_name}")
-    ax[1].imshow(mark_boundaries(img, segmented_img))
+    ax[1].imshow(mark_boundaries(img, segmented_img,
+        outline_color=outline_color))
     ax[1].set_title('SLIC')
 
     for a in ax.ravel():
@@ -122,6 +123,7 @@ ti = time.time()
 # Revant data
 gal_imgs = f'/home/elom/gdrive/AI/99_thesis_writting/thesis/LaTeX/pics/gal_imgs'
 gal_paths = glob.glob(f'{gal_imgs}/*')
+output_path = f"/home/elom/gdrive/AI/99_thesis_writting/thesis/LaTeX/pics/"
 
 for gal_path in gal_paths:
     gal_name = gal_path.split('/')[-1].split('.')[0]
@@ -140,13 +142,28 @@ for gal_path in gal_paths:
     print(f"SLIC number of segments: {len(np.unique(segments_slic))}")
 
     plot_seg_img(img=img, segmented_img=segments_slic, img_name=gal_name,
-        output_path='.', seg_type='SLIC', show=False)
+        output_path=output_path, seg_type='SLIC', show=False)
 
 ###############################################################################
 tf = time.time()
 print(f"Runing time: {tf-ti:.2f}")
 ###############################################################################
+## Case for spectra
+# segments_slic = slic(spec_test, n_segments=30, compactness=100,
+#     sigma=1, multichannel=False)
+#
+# boundaries = mark_boundaries(spec_test, segments_slic)
+#
+# diff = boundaries[0, :, 0] - spec_test[0, :]
+#
+# idxs = np.nonzero(diff)[0]
+#
+# plot(spec_test[0, :], color='black', linewidth=0.7)
+#
+# for vline in idxs:
+#     axvline(x=vline, color='red', linewidth=0.5) 
 
+###############################################################################
 # print(f"Felzenszwalb's efficient graph based segmentation")
 # segments_fz = felzenszwalb(img, scale=100, sigma=0.5, min_size=50)
 # print(f"Felzenszwalb number of segments: {len(np.unique(segments_fz))}")
