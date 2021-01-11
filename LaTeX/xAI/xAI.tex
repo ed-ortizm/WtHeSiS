@@ -1,32 +1,38 @@
 \section{E\textbf{x}plainable \textbf{A}rtificial \textbf{I}ntelligence (xAI)}
 
 \begin{enumerate}
-  
+
   \item LIME
-  
+
   \item SAHP
 \end{enumerate}
 
 \subsection{xAI for Unsupervised Learning}
 
-LIME and SHAP are designed to interpret predictions made by classifiers and regressors, that is, supervised learning
-models. For the case of the unsupervised random forest, there is not a big problem with that because in the end it is a classification model. On the other hand, for the case of the AE algorithm, it is an unsupervised learning algorithm and the outlier score is computed a posteriori. Therefore there are two stages for that particular ODA. Nonetheless, there is a neat way to ovecome this situation. Instead of passing the autoencoder prediction funtion, that outputs a reconstructed spectrum, we pass to lime a new function that outputs the outlier score. In that sense, the ODA is a regression algorithm, therefore, the labels fed to LIME consist of all the predicted outlier scores. Below the pseudocode for that procedure:
+LIME and SHAP are designed to interpret the predictions made by a given
+classifier or regressor model $f$. Therefore, the $f$ comes from a SL setting.
+For the case of the URF, this is not much of a problem because it is a
+classifier that distinguishes whether a spectrum is real or synthetic. However,
+the ODA based on the URF is a regressor since it outputs a continuous variable,
+the outlier score. On the other hand, the AE is an UL algorithm, i.e, it is
+neither a regressor nor a classifier. The ODA based on the AE has the workflow
+illustrated in algorithm (\ref{alg:AE_ODA}), meaning this ODA can be framed as
+a regressor. Having this in mind, we can conclude that for any ODA that computes
+an outlier score, we can frame it as a regressor model $f$ for LIME and compute
+an explanation model $\EModel$ for a given prediction.
 
-% \begin{algorithm}[tb]
-% \begin{algorithmic}
-%   \Require Classifier $f$, Number of samples $N$
-%   \Require Instance $x$, and its interpretable version $x'$
-%   \Require Similarity kernel $\Sim_x$, Length of explanation $K$
-%   \State $\mathcal{Z} \gets \{\}$
-%   \For{$i \in \{1,2,3,...,N\}$}
-%     \State{$z_i'\gets sample\_around(x')$}
-%     \State $\mathcal{Z} \gets \mathcal{Z} \cup \langle z_i', f(z_i), \Sim_x(z_i) \rangle$
-%   \EndFor
-%   \State $w \gets \text{K-Lasso}(\mathcal{Z},K)$  \Comment{with $z_i'$ as features, $f(z)$ as target}
-%   \Return $w$
-% \end{algorithmic}
-% \caption{Sparse Linear Explanations using LIME\label{alg:lime}}
-% \end{algorithm}
-%
+\begin{algorithm}[tb]
+\begin{algorithmic}
+  \Require Observed spectrum $O$
+  \Require Trained AE $AE$
+  \Require Outlier score function $s$
+  \State $R \gets AE.predict(O)$ \Comment{$R:\text{ reconstructed spectrum}$}
+  \State $score \gets s(O,R)$  \Comment{$score:\text{outlier score of }O$}
+
+  \Return $score$
+\end{algorithmic}
+\caption{ODA based on AE\label{alg:AE_ODA}}
+\end{algorithm}
+
 \import{./}{LIME.tex}
 \import{./}{SHAP.tex}
